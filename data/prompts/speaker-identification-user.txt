@@ -1,0 +1,4 @@
+Please analyze this call transcript and identify the speakers, then reformat it with speaker labels:
+
+{transcript}
+

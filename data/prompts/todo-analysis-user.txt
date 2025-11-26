@@ -1,0 +1,4 @@
+Please analyze this call transcript and create a comprehensive todo list with all important action items:
+
+{labeledTranscript}
+
