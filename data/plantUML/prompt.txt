@@ -1,0 +1,11 @@
+#1.
+
+with plantuml, create diagram of my application: 
+1. When working call is completed, save recording. 
+2. analyze with openAI LLM this call and get all most important things and write them in as todo list 
+3. send this todo list with most important items to user email.
+
+#2.
+
+update a little bit, minimalistic diagram, 
+add after recording part to transcribe it and then send to analyze.

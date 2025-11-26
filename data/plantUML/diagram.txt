@@ -1,0 +1,31 @@
+@startuml
+title Post-call TODO flow (minimal)
+
+actor User
+participant "App" as App
+participant "Recording" as Rec
+participant "Transcription" as Tr
+participant "LLM Analyzer" as LLM
+participant "Email Service" as Mail
+
+User -> App: Working call
+App --> App: Handle call
+User <-- App: Call completed
+
+== Save recording ==
+App -> Rec: Save call recording
+Rec --> App: Recording location
+
+== Transcribe ==
+App -> Tr: Transcribe recording
+Tr --> App: Transcript
+
+== Analyze & build TODO ==
+App -> LLM: Analyze transcript\nand extract TODO list
+LLM --> App: TODO list
+
+== Send email ==
+App -> Mail: Send TODO list\nto user's email
+Mail --> User: TODO email
+
+@enduml
