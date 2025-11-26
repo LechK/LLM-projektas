@@ -66,7 +66,19 @@ export async function POST(request: NextRequest) {
       temperature: 0.7,
     });
 
-    const todoList = completion.choices[0].message.content;
+    const todoListRaw = completion.choices[0].message.content;
+    
+    // Parse the JSON response from GPT
+    let todoList;
+    try {
+      // Remove markdown code blocks if present
+      const cleanedResponse = todoListRaw?.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim();
+      todoList = JSON.parse(cleanedResponse || '{}');
+    } catch (parseError) {
+      console.error('[route.ts]: Failed to parse JSON response:', parseError);
+      // Fallback to raw text if JSON parsing fails
+      todoList = { raw: todoListRaw };
+    }
 
     console.log('[route.ts]: Call analysis completed successfully');
 
