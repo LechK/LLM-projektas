@@ -1,36 +1,78 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🎙️ Call Transcription & Analysis
 
-## Getting Started
+An AI-powered system for transcribing call recordings, identifying speakers, and automatically extracting actionable insights using OpenAI's Whisper and GPT-4.
 
-First, run the development server:
+## ✨ Features
+
+- **Audio Transcription**: Convert call recordings to text using OpenAI Whisper
+- **Speaker Identification**: Automatically identify and label speakers (Agent/Caller)
+- **Smart Analysis**: Extract action items, key decisions, follow-ups, and critical information
+- **Email Reports**: Automatically send formatted analysis reports to your email
+- **Modern UI**: Beautiful, responsive interface with dark mode support
+
+## 🚀 Getting Started
+
+### Prerequisites
+
+- Node.js 18+
+- OpenAI API key
+- Email service API key (Resend or SendGrid)
+
+### Installation
+
+1. Clone the repository
+2. Install dependencies:
+
+```bash
+npm install
+```
+
+3. Create `.env.local` file with your API keys:
+
+```bash
+# OpenAI
+OPENAI_API_KEY=sk-xxxxxxxxxxxxx
+
+# Email Configuration
+EMAIL_PROVIDER=resend
+RECIPIENT_EMAIL=yourname@example.com
+RESEND_API_KEY=re_xxxxxxxxxxxxx
+FROM_EMAIL=onboarding@resend.dev
+```
+
+4. Run the development server:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+5. Open [http://localhost:3000](http://localhost:3000)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 📁 Project Structure
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- `/src/app` - Next.js app router pages and API routes
+- `/src/components` - Reusable React components
+- `/src/services` - Service layer for business logic
+- `/src/types` - TypeScript type definitions
+- `/public/calls` - Audio file storage
+- `/data/prompts` - AI prompt templates
 
-## Learn More
+## 🎨 Branding
 
-To learn more about Next.js, take a look at the following resources:
+The app features a modern blue gradient icon combining:
+- Microphone symbol (representing audio/calls)
+- Checklist document (representing analysis/todos)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Colors: Blue (#3B82F6) to Dark Blue (#1E40AF) gradient
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 🛠️ Tech Stack
 
-## Deploy on Vercel
+- **Framework**: Next.js 14 (App Router)
+- **Language**: TypeScript
+- **Styling**: Tailwind CSS
+- **AI**: OpenAI Whisper & GPT-4
+- **Email**: Resend/SendGrid
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## 📝 License
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+MIT

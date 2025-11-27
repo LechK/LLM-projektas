@@ -15,6 +15,7 @@ export default function Home() {
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>("");
   const [step, setStep] = useState<string>("");
+  const [emailStatus, setEmailStatus] = useState<string>("");
 
   const handleImportAndAnalyze = async () => {
     console.log("[page.tsx]: Starting import and analyze process");
@@ -22,6 +23,7 @@ export default function Home() {
     setError("");
     setTranscript("");
     setTodoList(null);
+    setEmailStatus("");
     setStep("Transcribing audio...");
 
     try {
@@ -36,11 +38,41 @@ export default function Home() {
       );
 
       // Update transcript with labeled version (with speaker identification)
-      if (labeledTranscript) {
-        setTranscript(labeledTranscript);
+      const finalTranscript = labeledTranscript || transcriptText;
+      setTranscript(finalTranscript);
+      setTodoList(analysis);
+
+      // Step 3: Automatically send email with results
+      setStep("Sending results to email...");
+      console.log("[page.tsx]: Automatically sending email");
+
+      try {
+        const emailResponse = await fetch("/api/send-email", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            transcript: finalTranscript,
+            todoList: analysis,
+          }),
+        });
+
+        const emailData = await emailResponse.json();
+
+        if (!emailResponse.ok) {
+          throw new Error(emailData.error || "Failed to send email");
+        }
+
+        console.log("[page.tsx]: Email sent successfully");
+        setEmailStatus(`✓ ${emailData.message || "Email sent successfully!"}`);
+      } catch (emailErr: unknown) {
+        console.error("[page.tsx]: Error sending email:", emailErr);
+        const emailErrorMessage =
+          emailErr instanceof Error ? emailErr.message : "Failed to send email";
+        setEmailStatus(`⚠ Email failed: ${emailErrorMessage}`);
       }
 
-      setTodoList(analysis);
       setStep("");
     } catch (err: unknown) {
       console.error("[page.tsx]: Error during process:", err);
@@ -66,13 +98,28 @@ export default function Home() {
           </p>
         </div>
 
-        {/* Import Button */}
-        <div className="flex justify-center mb-8">
+        {/* Action Buttons */}
+        <div className="flex justify-center items-center gap-4 mb-8 flex-wrap">
           <LoadingButton loading={loading} onClick={handleImportAndAnalyze} />
         </div>
 
         {/* Status Message */}
         <StatusMessage step={step} error={error} />
+
+        {/* Email Status */}
+        {emailStatus && (
+          <div className="mb-6 text-center">
+            <p
+              className={`text-sm font-medium ${
+                emailStatus.startsWith("✓")
+                  ? "text-green-600 dark:text-green-400"
+                  : "text-orange-600 dark:text-orange-400"
+              }`}
+            >
+              {emailStatus}
+            </p>
+          </div>
+        )}
 
         {/* Results Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
